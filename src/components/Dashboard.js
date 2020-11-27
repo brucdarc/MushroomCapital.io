@@ -31,10 +31,15 @@ class Dashboard extends Component{
             UserUsdc: 0
         };
         this.updateDash = this.updateDash.bind(this);
-        this.updateDash();
     }
 
 
+    /*
+    calls a bunch of the view functions to get data about what cryptos are in the contract and owned by the user and stuff
+    stores these in class state/ component state? which one owns it?
+
+    updates the state, then things down in render actually display the values
+     */
 
     async updateDash() {
 
@@ -82,7 +87,17 @@ class Dashboard extends Component{
  */
 
     render() {
-
+        /*
+        UpdateDash needs to be called here and not in constructor. The constructor is not called everytime parent says
+        rerender, but render is. Render is the only function called on rerender.
+        If we dont call updatedash here the data from the chain will not be fetched, and it will stay the
+        same, EVEN IF the parent component rerenders, causeing a rerender here. Rerender here does jack if
+        the render function doesnt call the function that fetches new info to display
+         */
+        this.updateDash();
+        /*
+        Anything that needs to happen every rerender need to get called here before the return!!!
+         */
 
         return(
             <div>
@@ -102,7 +117,7 @@ class Dashboard extends Component{
                             Total USDC Holdings of this Contract
                         </Col>
                         <Col>
-                            {this.state.TotalUsdc} MUSH
+                            {this.state.TotalUsdc} USDC
                         </Col>
                     </Row>
                     <br/><br/>
@@ -111,7 +126,7 @@ class Dashboard extends Component{
                             Estimated Value of all Mushroom Assets
                         </Col>
                         <Col>
-                            {this.state.EstimatedUsdcValue} MUSH
+                            ${this.state.EstimatedUsdcValue} USD
                         </Col>
                     </Row>
                     <br/><br/>
@@ -129,7 +144,7 @@ class Dashboard extends Component{
                             Your USDC Holdings (outside this project)
                         </Col>
                         <Col>
-                            {this.state.UserUsdc} MUSH
+                            {this.state.UserUsdc} UDSC
                         </Col>
                     </Row>
                 </Container>

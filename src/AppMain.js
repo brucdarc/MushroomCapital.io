@@ -16,24 +16,8 @@ import Dashboard from "./components/Dashboard";
 
 class App extends Component{
 
-    constructor(props){
-        super(props);
-
-        this.state={
-            Dummy: 0
-        };
-
-        this.Update = this.Update.bind(this);
-    }
-
-    Update() {
-        this.forceUpdate();
-        console.log("I got called!");
-    }
-
     render() {
         return (
-            //set mushroom forest background, make it fill screen
             <div className="App" style={{
                 backgroundImage: "url(" + "https://images8.alphacoders.com/600/600182.jpg" + ")",
                 backgroundPosition: 'center',
@@ -44,32 +28,27 @@ class App extends Component{
                     backgroundColor: 'transparent'
                 }}>
                     <br/><br/><br/><br/>
-                    <h1 style={{color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}}> {/* neat white text with blue fading outline */}
+                    <h1 style={{color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}}>
                         Welcome to Mushroom Capital
                     </h1>
-                    <br/><br/><br/><br/><br/> {/*Tons of new lines*/}
-                    <Dashboard /> {/* render dashboard child component from dashboard.js */}
+                    <br/><br/><br/><br/><br/>
+                    <Dashboard/>
                     <br/><br/>
                 </header>
-                {/*
-                     Uses bootstrap cols and rows to make everything all nice and scalable
-                    */}
                 <Container>
+
                     <Row>
                         <Col sm>
-                            <Invest Update={this.Update}/> {/* render invest child component from invest.js */}
+                            <Invest/>
                         </Col>
                         <Col sm>
-                            <Liquidate/> {/* render liquidate child component from liquidate.js */}
+                            <Liquidate/>
                         </Col>
                     </Row>
                 </Container>
                 <header className="App-header" style={{
                     backgroundColor: 'transparent'
                 }}>
-                    {/*
-                     Put all those good legal warning messages up
-                    */}
                     <h3 style={{color: 'EBEBEB', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}}>
                         All initial investments are subject to up to a 1 month holding period to account for slippage.
                     </h3>
