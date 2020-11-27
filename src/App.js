@@ -27,11 +27,13 @@ function App() {
       <header className="App-header" style={{
           backgroundColor: 'transparent'
       }}>
+          <br/><br/><br/><br/>
           <h1 style={{ color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC' }}>
               Welcome to Mushroom Capital
           </h1>
           <br/><br/><br/><br/><br/>
           <Dashboard/>
+          <br/><br/>
       </header>
         <Container>
 
