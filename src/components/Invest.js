@@ -42,8 +42,7 @@ class Invest extends Component{
         try {
             var accounts;
 
-            this.setState({ waitingOnContract: true
-            });
+            this.props.UpdateWaitingOnContract(true);
 
             await web3.eth.getAccounts().then(function(acc){ accounts = acc })
 
@@ -83,15 +82,13 @@ class Invest extends Component{
             // need them for approve transfer, then transferfrom when using erc tokens
             //await batch.execute();
 
-            this.setState({ waitingOnContract: false
-            });
+            this.props.UpdateWaitingOnContract(false);
 
             this.props.Update();
 
         } catch (err) {
             console.log("ERROR IN SENDING TO CHAIN " + err);
-            this.setState({ waitingOnContract: false
-            });
+            this.props.UpdateWaitingOnContract(false);
         }
 
 
@@ -105,7 +102,7 @@ class Invest extends Component{
     but this way seems to look a feel cleaner
      */
     ButtonText() {
-        if (this.state.waitingOnContract) {
+        if (this.props.waitingOnContract) {
             return <div>Waiting on Transactions.............</div>;
         }
         return <div>Invest Tokens</div>;
@@ -152,7 +149,7 @@ class Invest extends Component{
                     {/*
                      Button that calls function to send invest transactions to chain
                     */}
-                    <button id={'setLocation'} className={'btn btn-md btn-success'} disabled={this.state.waitingOnContract} style={{color:'black'}} onClick={this.invest}>
+                    <button id={'setLocation'} className={'btn btn-md btn-success'} disabled={this.props.waitingOnContract} style={{color:'black'}} onClick={this.invest}>
                         <span>{this.ButtonText()}</span>
                     </button>
 

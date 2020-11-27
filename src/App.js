@@ -12,23 +12,35 @@ import {Component, React, Text} from "react";
 import Dashboard from "./components/Dashboard";
 
 
+//here and not in style sheet because css doesnt like text-shadow
+const radiantWhite = {color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}
 
 
 class App extends Component{
+
+
 
     constructor(props){
         super(props);
 
         this.state={
-            Dummy: 0
+            Dummy: 0,
+            waitingOnContract: false
         };
 
         this.Update = this.Update.bind(this);
+        this.UpdateWaitingOnContract = this.UpdateWaitingOnContract.bind(this);
     }
 
     Update() {
         this.forceUpdate();
         console.log("I got called!");
+    }
+
+    UpdateWaitingOnContract(bool) {
+        this.setState({
+            waitingOnContract: bool
+        });
     }
 
     render() {
@@ -44,7 +56,7 @@ class App extends Component{
                     backgroundColor: 'transparent'
                 }}>
                     <br/><br/><br/><br/>
-                    <h1 style={{color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}}> {/* neat white text with blue fading outline */}
+                    <h1 style={radiantWhite}> {/* neat white text with blue fading outline */}
                         Welcome to Mushroom Capital
                     </h1>
                     <br/><br/><br/><br/><br/> {/*Tons of new lines*/}
@@ -57,10 +69,10 @@ class App extends Component{
                 <Container>
                     <Row>
                         <Col sm>
-                            <Invest Update={this.Update}/> {/* render invest child component from invest.js */}
+                            <Invest Update={this.Update} waitingOnContract={this.state.waitingOnContract} UpdateWaitingOnContract={this.UpdateWaitingOnContract} /> {/* render invest child component from invest.js */}
                         </Col>
                         <Col sm>
-                            <Liquidate/> {/* render liquidate child component from liquidate.js */}
+                            <Liquidate Update={this.Update} waitingOnContract={this.state.waitingOnContract} UpdateWaitingOnContract={this.UpdateWaitingOnContract}/> {/* render liquidate child component from liquidate.js */}
                         </Col>
                     </Row>
                 </Container>
@@ -70,10 +82,10 @@ class App extends Component{
                     {/*
                      Put all those good legal warning messages up
                     */}
-                    <h3 style={{color: 'EBEBEB', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}}>
+                    <h3 style={radiantWhite}>
                         All initial investments are subject to up to a 1 month holding period to account for slippage.
                     </h3>
-                    <h3 style={{color: 'EBEBEB', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC'}}>
+                    <h3 style={radiantWhite}>
                         Prices may fluctuate, and Mushroom Capital is not responsible for temporary or permanent loss of
                         funds.
                     </h3>

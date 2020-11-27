@@ -10,7 +10,10 @@ import Liquidate from "./Liquidate";
 import Container from "react-bootstrap/Container";
 //import Card from 'react-bootstrap/Card'
 //import Box from '@material-ui/core/Box';
+import Text from 'react-text';
 
+//here cause text-shadow css no like
+const moneyBlack = {color: 'Black', margin: 0, 'text-shadow': '0px 0px 2px #33cd0c'}
 
 function callBack(err, result) {
     console.warn(result);
@@ -108,7 +111,9 @@ class Dashboard extends Component{
                             Total MUSH Supply
                         </Col>
                         <Col>
+                            <h2 style={moneyBlack}>
                             {this.state.TotalMush} MUSH
+                            </h2>
                         </Col>
                     </Row>
                     <br/><br/>
@@ -117,7 +122,9 @@ class Dashboard extends Component{
                             Total USDC Holdings of this Contract
                         </Col>
                         <Col>
+                            <h2 style={moneyBlack}>
                             {this.state.TotalUsdc} USDC
+                            </h2>
                         </Col>
                     </Row>
                     <br/><br/>
@@ -126,7 +133,9 @@ class Dashboard extends Component{
                             Estimated Value of all Mushroom Assets
                         </Col>
                         <Col>
+                            <h2 style={moneyBlack}>
                             ${this.state.EstimatedUsdcValue} USD
+                            </h2>
                         </Col>
                     </Row>
                     <br/><br/>
@@ -135,7 +144,9 @@ class Dashboard extends Component{
                             Your MUSH Holdings
                         </Col>
                         <Col>
-                            {this.state.UserMush} MUSH
+                            <h2 style={moneyBlack}>
+                            {this.state.UserMush}
+                            </h2>MUSH
                         </Col>
                     </Row>
                     <br/><br/>
@@ -144,7 +155,9 @@ class Dashboard extends Component{
                             Your USDC Holdings (outside this project)
                         </Col>
                         <Col>
+                            <h2 style={moneyBlack}>
                             {this.state.UserUsdc} UDSC
+                            </h2>
                         </Col>
                     </Row>
                 </Container>

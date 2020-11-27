@@ -31,6 +31,7 @@ class Liquidate extends Component{
 
         event.preventDefault();
         try {
+            this.props.UpdateWaitingOnContract(true);
             var accounts;
             await web3.eth.getAccounts().then(function(acc){ accounts = acc })
 
@@ -67,15 +68,22 @@ class Liquidate extends Component{
             // need them for approve transfer, then transferfrom when using erc tokens
             await batch.execute();
 
+            this.props.UpdateWaitingOnContract(false);
             //await Rome.methods.buyRome(this.state.amount).send({from: accounts[0], value: this.state.amount*10000000000000000, gas: 100000000000000});
 
         } catch (err) {
             console.log("ERROR IN SENDING TO CHAIN " + err);
-            this.setState({
-            });
+            this.props.UpdateWaitingOnContract(false);
         }
 
 
+    }
+
+    ButtonText() {
+        if (this.props.waitingOnContract) {
+            return <div>Waiting on Transactions.............</div>;
+        }
+        return <div>Remove Funds</div>;
     }
 
     render() {
@@ -100,8 +108,8 @@ class Liquidate extends Component{
                 </Form.Field>
                 <br/>
                 <h4 style={{ color: 'Black', margin: 0  }}>   Your mushrooms will be BURNED and you will receive an equivalent stake of the pool if funds are available, and not currently tied up in investments.</h4>
-                    <button id={'setLocation'} className={'btn btn-md btn-success'} style={{color:'black'}} onClick={this.invest}>
-                    <span>Remove Funds</span>
+                    <button id={'setLocation'} className={'btn btn-md btn-success'} disabled={this.props.waitingOnContract} style={{color:'black'}} onClick={this.invest}>
+                    <span>{this.ButtonText()}</span>
                 </button>
 
                 </Card>
