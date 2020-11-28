@@ -13,7 +13,7 @@ import Container from "react-bootstrap/Container";
 import Text from 'react-text';
 
 //here cause text-shadow css no like
-const moneyBlack = {color: 'Black', margin: 0, 'text-shadow': '0px 0px 2px #33cd0c'}
+const moneyBlack = {color: 'black', margin: 0, 'text-shadow': '0px 0px 2px #33cd0c'}
 
 function callBack(err, result) {
     console.warn(result);
@@ -27,13 +27,7 @@ class Dashboard extends Component{
     constructor(props){
         super(props);
         this.state={
-            TotalMush : 0,
-            TotalUsdc: 0,
-            EstimatedUsdcValue: 0,
-            UserMush: 0,
-            UserUsdc: 0
         };
-        this.updateDash = this.updateDash.bind(this);
     }
 
 
@@ -44,45 +38,7 @@ class Dashboard extends Component{
     updates the state, then things down in render actually display the values
      */
 
-    async updateDash() {
 
-        var accounts;
-
-        try {
-            await web3.eth.getAccounts().then(function (acc) {
-                accounts = acc
-            })
-
-            let total_mush = await Mushroom.methods.totalSupply().call();
-            let user_mush = await Mushroom.methods.balanceOf(accounts[0]).call();
-
-            let est_value = await Mushroom.methods.viewEstValue().call();
-
-            let total_usdc = await Rome.methods.balanceOf(Mushroom.options.address).call();
-            let user_usdc = await Rome.methods.balanceOf(accounts[0]).call();
-
-            total_mush = web3.utils.fromWei(total_mush, 'ether');
-            user_mush = web3.utils.fromWei(user_mush, 'ether');
-            est_value = web3.utils.fromWei(est_value, 'ether');
-            total_usdc = web3.utils.fromWei(total_usdc, 'ether');
-            user_usdc = web3.utils.fromWei(user_usdc, 'ether');
-
-
-            this.setState({
-                TotalMush: total_mush,
-                UserMush: user_mush,
-                TotalUsdc: total_usdc,
-                UserUsdc: user_usdc,
-                EstimatedUsdcValue: est_value
-            });
-
-        }
-        catch (err) {
-            console.log("ERROR IN SENDING TO CHAIN " + err);
-            this.setState({
-            });
-        }
-    }
 /*
 <pre style={{ color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC' }}>{'' +
                 'Total MUSH Supply:      ${Total_Mush} MUSH\n' +
@@ -91,20 +47,15 @@ class Dashboard extends Component{
 
     render() {
         /*
-        UpdateDash needs to be called here and not in constructor. The constructor is not called everytime parent says
-        rerender, but render is. Render is the only function called on rerender.
-        If we dont call updatedash here the data from the chain will not be fetched, and it will stay the
-        same, EVEN IF the parent component rerenders, causeing a rerender here. Rerender here does jack if
-        the render function doesnt call the function that fetches new info to display
+        Never call something that sets state inside a render funciton. There was gore here.
+        Infinite recursion, bad code BAD CODE. Setting state rerenders which calls render again which
+        calls a thing that sets state again. Dont do it. UpdateStats moved to app class, 1 layer above.
          */
-        this.updateDash();
-        /*
-        Anything that needs to happen every rerender need to get called here before the return!!!
-         */
+
 
         return(
             <div>
-                <h2 style={{ color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #35FFEC' }}>
+                <h2 style={{ color: 'white', margin: 0, 'text-shadow': '0px 0px 2px #33cd0c' }}>
                 <Container>
                     <Row>
                         <Col>
@@ -112,7 +63,7 @@ class Dashboard extends Component{
                         </Col>
                         <Col>
                             <h2 style={moneyBlack}>
-                            {this.state.TotalMush} MUSH
+                            {this.props.TotalMush} MUSH
                             </h2>
                         </Col>
                     </Row>
@@ -123,7 +74,7 @@ class Dashboard extends Component{
                         </Col>
                         <Col>
                             <h2 style={moneyBlack}>
-                            {this.state.TotalUsdc} USDC
+                            {this.props.TotalUsdc} USDC
                             </h2>
                         </Col>
                     </Row>
@@ -134,7 +85,18 @@ class Dashboard extends Component{
                         </Col>
                         <Col>
                             <h2 style={moneyBlack}>
-                            ${this.state.EstimatedUsdcValue} USD
+                            ${this.props.EstimatedUsdcValue} USD
+                            </h2>
+                        </Col>
+                    </Row>
+                    <br/><br/>
+                    <Row>
+                        <Col>
+                            Value of MUSH coin in USDC
+                        </Col>
+                        <Col>
+                            <h2 style={moneyBlack}>
+                                {this.props.EstimatedUsdcValue/this.props.TotalMush} UDSC
                             </h2>
                         </Col>
                     </Row>
@@ -145,8 +107,8 @@ class Dashboard extends Component{
                         </Col>
                         <Col>
                             <h2 style={moneyBlack}>
-                            {this.state.UserMush}
-                            </h2>MUSH
+                            {this.props.UserMush} MUSH
+                            </h2>
                         </Col>
                     </Row>
                     <br/><br/>
@@ -156,10 +118,11 @@ class Dashboard extends Component{
                         </Col>
                         <Col>
                             <h2 style={moneyBlack}>
-                            {this.state.UserUsdc} UDSC
+                            {this.props.UserUsdc} UDSC
                             </h2>
                         </Col>
                     </Row>
+
                 </Container>
                 </h2>
             </div>
