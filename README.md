@@ -1,7 +1,3 @@
-# Getting Started with Create React App
+# Shroom Capital Management
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-#Shroom Capital Management
+Project for a private group of friends to pool fund to invest in defi.
